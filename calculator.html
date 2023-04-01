@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calculator</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/9.0.1/bignumber.min.js"></script>
+	<!-- Adding Bootstrap stylesheet -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<style>
+		/* Setting height for the input textarea */
+		#text {
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div class="container mt-5">
+		<h1>Calculator</h1>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group row">
+					<label for="a" class="col-sm-2 col-form-label">A:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="a" name="a">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="b" class="col-sm-2 col-form-label">B:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="b" name="b">
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-8">
+						<button class="btn btn-primary mr-2" onclick="calculate()">Calculate</button>
+						<button class="btn btn-secondary" onclick="reset()">Reset</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group row">
+					<label for="text" class="col-sm-2 col-form-label">Parse from text:</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" id="text" name="text" rows="4"></textarea>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-8 offset-sm-2">
+						<button class="btn btn-secondary" onclick="clearText()">Clear Text</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="sum" class="col-sm-1 col-form-label">A + B:</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" id="sum" name="sum" disabled>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="difference" class="col-sm-1 col-form-label">A - B:</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" id="difference" name="difference" disabled>
+			</div>
+		</div>
+		<h2>Result History</h2>
+		<ul id="history"></ul>
+	</div>
+
+	<script>
+		var results = [];
+
+		function calculate() {
+			var a = new BigNumber(document.getElementById("a").value);
+			var b = new BigNumber(document.getElementById("b").value);
+			var sum = a.plus(b);
+			var difference = a.minus(b);
+			document.getElementById("sum").value = sum.toString();
+			document.getElementById("difference").value = difference.toString();
+
+			var text = document.getElementById("text").value.trim();
+			if (text !== "") {
+				var regex = /(0x[\da-fA-F]+|\d+)/g;
+				var matches = text.match(regex);
+				if (matches && matches.length >= 2) {
+					document.getElementById("a").value = matches[0];
+					document.getElementById("b").value = matches[1];
+				} else {
+					alert("Error: Could not find two integer numbers in input.");
+					return;
+				}
+			}
+
+			var result = {a: a.toString(), b: b.toString(), sum: sum.toString(), difference: difference.toString()};
+			results.push(result);
+			addToHistory(result);
+		}
+
+		function reset() {
+			document.getElementById("a").value = "";
+			document.getElementById("b").value = "";
+			document.getElementById("text").value = "";
+			document.getElementById("sum").value = "";
+			document.getElementById("difference").value = "";
+		}
+
+		function clearText() {
+			document.getElementById("text").value = "";
+		}
+
+		function addToHistory(result) {
+			var li = document.createElement("li");
+			var text = document.createTextNode("A: " + result.a + ", B: " + result.b + ", A + B: " + result.sum + ", A - B: " + result.difference);
+			li.appendChild(text);
+			document.getElementById("history").appendChild(li);
+		}
+	</script>
+
+	<!-- Adding Bootstrap JavaScript library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
