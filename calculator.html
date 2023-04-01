@@ -51,6 +51,18 @@
          </div>
       </div>
       <div class="form-group row">
+         <label for="sum" class="col-sm-1 col-form-label">A:</label>
+         <div class="col-sm-5">
+            <input type="text" class="form-control" id="outA" name="outA">
+         </div>
+      </div>
+      <div class="form-group row">
+         <label for="sum" class="col-sm-1 col-form-label">B:</label>
+         <div class="col-sm-5">
+            <input type="text" class="form-control" id="outB" name="outB">
+         </div>
+      </div>
+      <div class="form-group row">
          <label for="sum" class="col-sm-1 col-form-label">A + B:</label>
          <div class="col-sm-5">
             <input type="text" class="form-control" id="sum" name="sum">
@@ -85,10 +97,12 @@
             }
          }
          
-            var a = new BigNumber(document.getElementById("a").value);
+         var a = new BigNumber(document.getElementById("a").value);
          var b = new BigNumber(document.getElementById("b").value);
          var sum = a.plus(b);
          var difference = a.minus(b);
+         document.getElementById("outA").value = a.toFixed(0);
+         document.getElementById("outB").value = b.toFixed(0);
          document.getElementById("sum").value = sum.toFixed(0);
          document.getElementById("difference").value = difference.toFixed(0);
             var result = {
