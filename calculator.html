@@ -1,157 +1,176 @@
 <!DOCTYPE html>
 <html>
-<head>
-   <title>Calculator</title>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/9.0.1/bignumber.min.js"></script>
-   <!-- Adding Bootstrap stylesheet -->
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-   <style>
-      /* Setting height for the input textarea */
-      #text {
-         height: 100%;
-      }
-   </style>
-</head>
-<body>
-   <div class="container mt-5">
-      <h1>Calculator</h1>
-      <div class="row">
-         <div class="col-sm-6">
-            <div class="form-group row">
-               <label for="a" class="col-sm-2 col-form-label">A:</label>
-               <div class="col-sm-6">
-                  <input type="text" class="form-control" id="a" name="a">
-               </div>
+    <head>
+        <title>Calculator</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/9.0.1/bignumber.min.js"></script>
+        <!-- Adding Bootstrap stylesheet -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+          /* Setting height for the input textarea */
+          #text {
+             height: 100%;
+          }
+        </style>
+    </head>
+    <body>
+        <div class="container mt-5">
+            <h1>Calculator</h1>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label for="a" class="col-sm-2 col-form-label">A:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="a" name="a">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="b" class="col-sm-2 col-form-label">B:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="b" name="b">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-8">
+                            <button class="btn btn-primary" onclick="calculate()">Parse and Calculate</button>
+                            <button class="btn btn-light" onclick="calculateWithoutParse()">Calculate</button>
+                            <button class="btn btn-secondary" onclick="reset()">Reset</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label for="text" class="col-sm-2 col-form-label">Parse from text:</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="text" name="text" rows="4"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-8 offset-sm-2">
+                            <button class="btn btn-secondary" onclick="clearText()">Clear Text</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="form-group row">
-               <label for="b" class="col-sm-2 col-form-label">B:</label>
-               <div class="col-sm-6">
-                  <input type="text" class="form-control" id="b" name="b">
-               </div>
+                <label for="sum" class="col-sm-1 col-form-label">A:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="outA" name="outA">
+                </div>
             </div>
             <div class="form-group row">
-               <div class="col-sm-8">
-                  <button class="btn btn-primary mr-2" onclick="calculate()">Calculate</button>
-                  <button class="btn btn-secondary" onclick="reset()">Reset</button>
-               </div>
-            </div>
-         </div>
-         <div class="col-sm-6">
-            <div class="form-group row">
-               <label for="text" class="col-sm-2 col-form-label">Parse from text:</label>
-               <div class="col-sm-8">
-                  <textarea class="form-control" id="text" name="text" rows="4"></textarea>
-               </div>
+                <label for="sum" class="col-sm-1 col-form-label">B:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="outB" name="outB">
+                </div>
             </div>
             <div class="form-group row">
-               <div class="col-sm-8 offset-sm-2">
-                  <button class="btn btn-secondary" onclick="clearText()">Clear Text</button>
-               </div>
+                <label for="sum" class="col-sm-1 col-form-label">A + B:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="sum" name="sum">
+                </div>
             </div>
+            <div class="form-group row">
+                <label for="difference" class="col-sm-1 col-form-label">A - B:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="difference" name="difference">
+                 </div>
+             </div>
+             <h2>Result History</h2>
+             <ul id="history"></ul>
          </div>
-      </div>
-      <div class="form-group row">
-         <label for="sum" class="col-sm-1 col-form-label">A:</label>
-         <div class="col-sm-5">
-            <input type="text" class="form-control" id="outA" name="outA">
-         </div>
-      </div>
-      <div class="form-group row">
-         <label for="sum" class="col-sm-1 col-form-label">B:</label>
-         <div class="col-sm-5">
-            <input type="text" class="form-control" id="outB" name="outB">
-         </div>
-      </div>
-      <div class="form-group row">
-         <label for="sum" class="col-sm-1 col-form-label">A + B:</label>
-         <div class="col-sm-5">
-            <input type="text" class="form-control" id="sum" name="sum">
-         </div>
-      </div>
-      <div class="form-group row">
-         <label for="difference" class="col-sm-1 col-form-label">A - B:</label>
-         <div class="col-sm-5">
-            <input type="text" class="form-control" id="difference" name="difference">
-         </div>
-      </div>
-      <h2>Result History</h2>
-      <ul id="history"></ul>
-   </div>
+        
+         <script>
+           var results = [];
+        
+           function calculate() {
+              var text = document.getElementById("text").value.trim();
+              if (text !== "") {
+                 var regex = /(?:^|\s|[+\-*\/()\[\],'"_])((0x[\da-fA-F]+|\d+))(?=\s|[+\-*\/()\[\],'"_]|$)/g;
+                 var matches = Array.from(text.matchAll(regex));
+                 if (matches && matches.length >= 2) {
+                    var a = matches[0][1];
+                    var b = matches[1][1];
+                    document.getElementById("a").value = a;
+                    document.getElementById("b").value = b;
+                 } else {
+                    alert("Error: Could not find two integer numbers in input.");
+                    return;
+                 }
+              }
+        
+              var a = new BigNumber(document.getElementById("a").value);
+              var b = new BigNumber(document.getElementById("b").value);
+              var sum = a.plus(b);
+              var difference = a.minus(b);
+              document.getElementById("outA").value = a.toFixed(0);
+              document.getElementById("outB").value = b.toFixed(0);
+              document.getElementById("sum").value = sum.toFixed(0);
+              document.getElementById("difference").value = difference.toFixed(0);
+              var result = {
+                 a: a.toFixed(0),
+                 b: b.toFixed(0),
+                 sum: sum.toFixed(0),
+                 difference: difference.toFixed(0)
+              };
+              results.push(result);
+              addToHistory(result);
+           }
+        
+           function calculateWithoutParse() {
+              var a = new BigNumber(document.getElementById("a").value);
+              var b = new BigNumber(document.getElementById("b").value);
+              var sum = a.plus(b);
+              var difference = a.minus(b);
+              document.getElementById("outA").value = a.toFixed(0);
+              document.getElementById("outB").value = b.toFixed(0);
+              document.getElementById("sum").value = sum.toFixed(0);
+              document.getElementById("difference").value = difference.toFixed(0);
+              var result = {
+                 a: a.toFixed(0),
+                 b: b.toFixed(0),
+                 sum: sum.toFixed(0),
+                 difference: difference.toFixed(0)
+              };
+              results.push(result);
+              addToHistory(result);
+           }
+        
+           function reset() {
+              document.getElementById("a").value = "";
+              document.getElementById("b").value = "";
+              document.getElementById("text").value = "";
+              document.getElementById("sum").value = "";
+              document.getElementById("difference").value = "";
+           }
+        
+           function clearText() {
+              document.getElementById("text").value = "";
+           }
+        
+           function addToHistory(result) {
+              var li = document.createElement("li");
+              var text = document.createTextNode("A: " + result.a + ", B: " + result.b);
+              var header = document.createElement("h6");
+              header.appendChild(text);
+              li.appendChild(header);
+              var ul = document.createElement("ul");
+              var sumLi = document.createElement("li");
+              var sumText = document.createTextNode("A + B: " + result.sum);
+              sumLi.appendChild(sumText);
+              ul.appendChild(sumLi);
+              var differenceLi = document.createElement("li");
+              var differenceText = document.createTextNode("A - B: " + result.difference);
+              differenceLi.appendChild(differenceText);
+              ul.appendChild(differenceLi);
+              li.appendChild(ul);
+              document.getElementById("history").appendChild(li);
+           }
+         </script>
 
-   <script>
-      var results = [];
-
-      function calculate() {
-         var text = document.getElementById("text").value.trim();
-         if (text !== "") {
-            var regex = /(?:^|\s|[+\-*\/()\[\],'"_])((0x[\da-fA-F]+|\d+))(?=\s|[+\-*\/()\[\],'"_]|$)/g;
-            var matches = Array.from(text.matchAll(regex));
-            if (matches && matches.length >= 2) {
-               var a = matches[0][1];
-               var b = matches[1][1];
-               document.getElementById("a").value = a;
-               document.getElementById("b").value = b;
-            } else {
-               alert("Error: Could not find two integer numbers in input.");
-               return;
-            }
-         }
-         
-         var a = new BigNumber(document.getElementById("a").value);
-         var b = new BigNumber(document.getElementById("b").value);
-         var sum = a.plus(b);
-         var difference = a.minus(b);
-         document.getElementById("outA").value = a.toFixed(0);
-         document.getElementById("outB").value = b.toFixed(0);
-         document.getElementById("sum").value = sum.toFixed(0);
-         document.getElementById("difference").value = difference.toFixed(0);
-            var result = {
-                a: a.toFixed(0),
-                b: b.toFixed(0),
-                sum: sum.toFixed(0),
-                difference: difference.toFixed(0)
-            };
-         results.push(result);
-         addToHistory(result);
-      }
-
-      function reset() {
-         document.getElementById("a").value = "";
-         document.getElementById("b").value = "";
-         document.getElementById("text").value = "";
-         document.getElementById("sum").value = "";
-         document.getElementById("difference").value = "";
-      }
-
-      function clearText() {
-         document.getElementById("text").value = "";
-      }
-
-        function addToHistory(result) {
-            var li = document.createElement("li");
-            var text = document.createTextNode("A: " + result.a + ", B: " + result.b);
-            var header = document.createElement("h6");
-            header.appendChild(text);
-            li.appendChild(header);
-            var ul = document.createElement("ul");
-            var sumLi = document.createElement("li");
-            var sumText = document.createTextNode("A + B: " + result.sum);
-            sumLi.appendChild(sumText);
-            ul.appendChild(sumLi);
-            var differenceLi = document.createElement("li");
-            var differenceText = document.createTextNode("A - B: " + result.difference);
-            differenceLi.appendChild(differenceText);
-            ul.appendChild(differenceLi);
-            li.appendChild(ul);
-            document.getElementById("history").appendChild(li);
-        }
-
-   </script>
-
-   <!-- Adding Bootstrap JavaScript library -->
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+         <!-- Adding Bootstrap JavaScript library -->
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
 </html>
 
