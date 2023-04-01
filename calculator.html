@@ -98,8 +98,8 @@
                  }
               }
         
-              var a = new BigNumber(document.getElementById("a").value);
-              var b = new BigNumber(document.getElementById("b").value);
+              var a = new BigNumber((document.getElementById("a").value).toLowerCase());
+              var b = new BigNumber((document.getElementById("b").value).toLowerCase());
               var sum = a.plus(b);
               var difference = a.minus(b);
               document.getElementById("outA").value = a.toFixed(0);
@@ -117,8 +117,8 @@
            }
         
            function calculateWithoutParse() {
-              var a = new BigNumber(document.getElementById("a").value);
-              var b = new BigNumber(document.getElementById("b").value);
+              var a = new BigNumber((document.getElementById("a").value).toLowerCase());
+              var b = new BigNumber((document.getElementById("b").value).toLowerCase());
               var sum = a.plus(b);
               var difference = a.minus(b);
               document.getElementById("outA").value = a.toFixed(0);
